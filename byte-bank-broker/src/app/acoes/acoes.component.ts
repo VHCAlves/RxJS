@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-import { Acoes } from './modelo/acoes';
 import { AcoesService } from './acoes.service';
 import { switchMap, tap } from 'rxjs/operators';
 import { merge } from 'rxjs';
