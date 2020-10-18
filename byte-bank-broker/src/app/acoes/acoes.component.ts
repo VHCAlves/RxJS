@@ -2,8 +2,10 @@ import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { AcoesService } from './acoes.service';
-import { switchMap, tap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, switchMap, tap } from 'rxjs/operators';
 import { merge } from 'rxjs';
+
+const ESPERA_DIGITACAO = 300;
 
 @Component({
   selector: 'app-acoes',
@@ -18,9 +20,15 @@ export class AcoesComponent {
     })
   );
   filtroPeloInput$ = this.acoesInput.valueChanges.pipe(
-    tap(() => console.log('fluxo do filtro')),
+    debounceTime(ESPERA_DIGITACAO),
+    tap(() => {
+      console.log('fluxo do filtro');
+    }),
+    tap(console.log),
+    filter((valorDigitado) => valorDigitado.length >= 3 || !valorDigitado.length),
+    distinctUntilChanged(),
     switchMap((valorDigitado) => this.acoesService.getAcoes(valorDigitado)),
-    tap(() => console.log)
+    tap(console.log)
   );
 
   acoes$ = merge(this.todasAcoes$, this.filtroPeloInput$)
