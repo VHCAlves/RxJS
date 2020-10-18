@@ -29,3 +29,5 @@ export class AcoesComponent {
   constructor(private acoesService: AcoesService) { }
 
 }
+
+//O operador switchMap tem o papel de manipular o fluxo dos dados, e não o resultado, por isso nesse caso a Elisa trocou o fluxo de produtos pelo fluxo de detalhes do produto.
